@@ -1,0 +1,9 @@
+<form [formGroup]="form">
+  <arc-otp-input [length]="5" [isPasswordInput]="false" formControlName="code"></arc-otp-input>
+</form>
+<pre>
+  {{ form.value | json }}
+</pre>
+<button (click)="onSucess()">Success</button>
+<button (click)="onWarning()">Warning</button>
+<button (click)="onError()">Error</button>

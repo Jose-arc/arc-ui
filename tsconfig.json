@@ -4,8 +4,14 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      // "@arc-library-ui/arc-sdk": [
+      //   "./dist/arc-library-ui/arc-sdk"
+      // ]
+      "@arc-library-ui/arc-sdk/*": [
+        "./projects/arc-library-ui/arc-sdk/*"
+      ],
       "@arc-library-ui/arc-sdk": [
-        "./dist/arc-library-ui/arc-sdk"
+        "./projects/arc-library-ui/arc-sdk"
       ]
     },
     "outDir": "./dist/out-tsc",

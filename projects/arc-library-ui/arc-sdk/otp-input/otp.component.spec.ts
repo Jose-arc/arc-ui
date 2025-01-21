@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArcSdkComponent } from './arc-sdk.component';
+import { OtpComponent } from './otp.component';
 
-describe('ArcSdkComponent', () => {
-  let component: ArcSdkComponent;
-  let fixture: ComponentFixture<ArcSdkComponent>;
+describe('OtpComponent', () => {
+  let component: OtpComponent;
+  let fixture: ComponentFixture<OtpComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ArcSdkComponent]
+      imports: [OtpComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ArcSdkComponent);
+    fixture = TestBed.createComponent(OtpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

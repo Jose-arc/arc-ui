@@ -1,0 +1,15 @@
+<form class="content__otp" id="otp_code" [formGroup]="form">
+    <input 
+    (blur)="onTouchedCb?.()"
+    [type]="type"
+    [disabled]="isDisabled"
+    formControlName="ctrl_{{i}}"
+    maxlength="1" 
+    class="otp-input" 
+    autocomplete="off" 
+    *ngFor="let item of form?.controls | keyvalue;let i=index" 
+    id="otp_{{i}}_otp_code" 
+    (keydown)="onKeyDown($event)"
+    (keyup)="onKeyUp($event,i)"
+    >
+</form>
