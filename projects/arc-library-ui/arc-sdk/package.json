@@ -1,0 +1,31 @@
+{
+  "name": "@arc-library-ui/arc-sdk",
+  "version": "1.0.0",
+  "description": "Componentes y servicios varios",
+  "author": "Jose Caceres",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jose-arc/arc-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jose-arc/arc-ui/issues"
+  },
+  "homepage": "https://github.com/Jose-arc/arc-ui",
+  "keywords": [
+    "angular",
+    "typescript",
+    "javascript"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}
