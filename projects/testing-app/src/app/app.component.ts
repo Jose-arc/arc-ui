@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { LoadingComponent } from 'npx-arc-ui/loading';
 import { OtpComponent } from 'npx-arc-ui/otp-input';
 import { SnackbarService } from 'npx-arc-ui/snackbar';
 import { getCookie } from 'npx-arc-ui/utils';
@@ -9,6 +10,7 @@ import { getCookie } from 'npx-arc-ui/utils';
   standalone: true,
   imports: [
     OtpComponent
+    , LoadingComponent
     , ReactiveFormsModule
     , CommonModule
   ],

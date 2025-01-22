@@ -1,0 +1,17 @@
+<div class="contenedor-loading" [style]="estilos" [style.display]="!muestraLoading && 'none'">
+    <div class="loading">
+            @if(retro){
+                <div class="cube-folding">
+                    <span class="leaf1"></span>
+                    <span class="leaf2"></span>
+                    <span class="leaf4"></span>
+                </div>
+            }
+            @else{
+                <figure>
+                   <img [src]="'data:image/svg+xml;base64,'+getImageIcon()" alt="logo" width="200" height="175">
+                </figure>
+            }
+        <span class="mensaje" data-name="Loading">{{mensaje || 'Cargando...'}}</span>
+    </div>
+</div>
