@@ -4,14 +4,11 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      // "@arc-library-ui/arc-sdk": [
-      //   "./dist/arc-library-ui/arc-sdk"
-      // ]
-      "@arc-library-ui/arc-sdk/*": [
-        "./projects/arc-library-ui/arc-sdk/*"
+      "npx-arc-ui/*": [
+        "./projects/npx-arc-ui/*"
       ],
-      "@arc-library-ui/arc-sdk": [
-        "./projects/arc-library-ui/arc-sdk"
+      "npx-arc-ui": [
+        "./projects/npx-arc-ui"
       ]
     },
     "outDir": "./dist/out-tsc",

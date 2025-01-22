@@ -3,23 +3,23 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "@arc-library-ui/arc-sdk": {
+    "npx-arc-ui": {
       "projectType": "library",
-      "root": "projects/arc-library-ui/arc-sdk",
-      "sourceRoot": "projects/arc-library-ui/arc-sdk",
+      "root": "projects/npx-arc-ui",
+      "sourceRoot": "projects/npx-arc-ui/src",
       "prefix": "arc",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/arc-library-ui/arc-sdk/ng-package.json"
+            "project": "projects/npx-arc-ui/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/arc-library-ui/arc-sdk/tsconfig.lib.prod.json"
+              "tsConfig": "projects/npx-arc-ui/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/arc-library-ui/arc-sdk/tsconfig.lib.json"
+              "tsConfig": "projects/npx-arc-ui/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,7 +27,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/arc-library-ui/arc-sdk/tsconfig.spec.json",
+            "tsConfig": "projects/npx-arc-ui/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"

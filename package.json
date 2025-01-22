@@ -1,12 +1,13 @@
 {
-  "name": "arc-ui-workspace",
+  "name": "commons-ui-workspace",
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build-lib": "ng build npx-arc-ui"
   },
   "private": false,
   "dependencies": {

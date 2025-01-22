@@ -1,27 +1,56 @@
-# ArcUiWorkspace
+# COMMONS UI Library
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.8.
+Libreria modular con multiples componentes y servicios.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Sistema de alertas
+- Componente OTP (Factor de autenticación)
+- Utils [Conjunto de funciones Vanilla Js]
 
-## Code scaffolding
+## Instalación
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Requiere una version compatible a angular 18 [Node.js](https://nodejs.org/)	^18.12 para desplegar.
 
-## Build
+Pasos de instalación.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```sh
+npm i
+```
 
-## Running unit tests
+## Módulos
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+| Módulos | Descripción |
+| ------ | ------ |
+| AlertComponent | Sistema de alerta de tipo snackbar |
+| LoadingComponent | Componente de carga con logo retro |
+| LoadingNewComponent | Componente de carga con logo nuevo |
+| OTPComponent | Componente de factor de autenticación |
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Funciones
 
-## Further help
+| Funciones | Descripción |
+| ------ | ------ |
+| replaceAll | Permite replazar multiples valores dentro de una cadena de texto |
+| setLocalStorage | Permite almacenar informacion en el localstorage del navegador de manera temporal |
+| getLocalStorage | Permite obtener un valor del localstorage |
+| removeLocalStorage | Permite remover un elemento en especifico del localstorage |
+| diffDays | Permite obtener la diferencia de dias entre 2 fechas |
+| getToken | Método para obtener el token JWT decodificado y alojado en las cookies |
+| toDataURL | Convierte una URL de un recurso en una cadena de datos en formato Base64 |
+| uniquedID | Genera un codigo random de 19 caracteres |
+| getCookie | Permite obtener el valor de una cookie almacenada en el navegador |
+| setCookie | Permite almacenar informacion en cookies del navegador de manera temporal |
+| deleteCookies | Permite eliminar informacion de las cookies del navegador segun el cname |
+| deleteAllCookies | Elimina todas las cookies del navegador |
+| cleanEmptyProperties | Permite limpiar las propiedad de un objeto que se encuentre vacio |
+| downloadFileWithLink | Genera un elemento a link descargable |
+| titleCase | Permite modificar la primera letra de un string |
+| mutableObjectKeyTitleCase | Permite modificar la key de un objeto |
+| isNullOrUndefined | Identifica si el objeto se encuentra null o undefined |
+| copyToClipboard | Permite selecciona algun contenido y lo copia al portapapeles. |
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## License
+
+MIT

@@ -1,5 +1,5 @@
 {
-  "name": "@arc-library-ui/arc-sdk",
+  "name": "npx-arc-ui",
   "version": "1.0.0",
   "description": "Componentes y servicios varios",
   "author": "Jose Caceres",
@@ -24,8 +24,5 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false,
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  }
+  "sideEffects": false
 }

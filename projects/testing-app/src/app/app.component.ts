@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { OtpComponent } from '@arc-library-ui/arc-sdk/otp-input';
-import { SnackbarService } from '@arc-library-ui/arc-sdk/snackbar';
+import { OtpComponent } from 'npx-arc-ui/otp-input';
+import { SnackbarService } from 'npx-arc-ui/snackbar';
 @Component({
   selector: 'app-root',
   standalone: true,

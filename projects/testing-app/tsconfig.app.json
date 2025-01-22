@@ -6,11 +6,11 @@
     "outDir": "../../out-tsc/app",
     "types": [],
     "paths": {
-      "@arc-library-ui/arc-sdk/*": [
-        "./../../dist/arc-library-ui/arc-sdk/*"
+      "npx-arc-ui/*": [
+        "./../../dist/npx-arc-ui/*"
       ],
-      "@arc-library-ui/arc-sdk": [
-        "./../../dist/arc-library-ui/arc-sdk"
+      "npx-arc-ui": [
+        "./../../dist/npx-arc-ui"
       ]
     }
   },
