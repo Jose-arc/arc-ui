@@ -15,7 +15,7 @@ Requiere una version compatible a angular 18 [Node.js](https://nodejs.org/)	^18.
 Pasos de instalación.
 
 ```sh
-npm i
+npm i npx-arc-ui
 ```
 
 ## Módulos

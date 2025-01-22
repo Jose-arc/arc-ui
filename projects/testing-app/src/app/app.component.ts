@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { OtpComponent } from 'npx-arc-ui/otp-input';
 import { SnackbarService } from 'npx-arc-ui/snackbar';
+import { getCookie } from 'npx-arc-ui/utils';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -19,7 +20,15 @@ export class AppComponent {
   form = new FormGroup({ code: new FormControl('') })
   constructor(
     private snackbar: SnackbarService
-  ){}
+  ){
+    setTimeout(() => {
+      try {
+        const cookie = getCookie('access_token');
+      } catch (error) {
+        throw new Error('No se encontro la cookie');
+      }
+    }, 1000);
+  }
 
   onSucess(){
     const ref = this.snackbar.onSuccessMessage('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut iaculis ipsum. Vestibulum vitae gravida felis. In et elit non elit scelerisque suscipit. Quisque id volutpat ligula. Nullam lectus.');
