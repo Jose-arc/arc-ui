@@ -3,6 +3,7 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { Subject, Subscription, of, tap } from 'rxjs';
 import { TYPE_POSITION, TYPE_SNACKBAR } from './snackbar.interface';
 import { SnackbarRef } from './snackbar.service';
+import { SNACKBAR_ERROR, SNACKBAR_SUCCESS, SNACKBAR_WARNING } from './snackbar.const';
 
 @Component({
   selector: 'arc-snackbar',
@@ -32,6 +33,17 @@ export class SnackbarComponent  implements OnDestroy{
   onOverlayClicked(evt: MouseEvent) {
     if(!this.subscription){
       this.close();
+    }
+  }
+
+  getImageIcon(){
+    switch (this.type) {
+      case 'error':
+        return SNACKBAR_ERROR;
+      case 'warning':
+        return SNACKBAR_WARNING;
+      default:
+        return SNACKBAR_SUCCESS;
     }
   }
 

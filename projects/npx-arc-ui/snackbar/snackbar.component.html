@@ -2,7 +2,7 @@
     <div class="container__snackbar">
         <div class="snackbar" [ngClass]="active ? 'active' : ''" [class]="type || ''" (click)="onAlertClicked($event)">
             <figure>
-                <img [src]="'assets/'+type+'.svg'" alt="icon" loading="lazy">
+                <img [src]="'data:image/svg+xml;base64,'+getImageIcon()" alt="icon" loading="lazy">
             </figure>
             <strong>{{title}}</strong>
             <div class="content__message">
