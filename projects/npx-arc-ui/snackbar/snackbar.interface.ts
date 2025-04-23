@@ -1,14 +1,19 @@
-import { SnackbarRef } from "./snackbar.service";
+import { ServicioHelperSnackbar } from "./snackbar.service";
 
-export default interface ISnackbarService{
-    onSuccessMessage(message: string, position?: TYPE_POSITION[], extra?: SnackbarConfig): SnackbarRef;
-    onWarningMessage(message: string, position?: TYPE_POSITION[], extra?: SnackbarConfig): SnackbarRef;
-    onErrorMessage(message: string, position?: TYPE_POSITION[], extra?: SnackbarConfig): SnackbarRef;
-    close(): void;
+export default interface IServicioSnackbar{
+    muestraMensajeExito(mensaje: string, extra?: ServicioConfiguracionSnackbar): ServicioHelperSnackbar;
+    muestraMensajeWarning(mensaje: string, extra?: ServicioConfiguracionSnackbar): ServicioHelperSnackbar;
+    muestraMensajeError(mensaje: string, extra?: ServicioConfiguracionSnackbar): ServicioHelperSnackbar;
+    eliminaMensaje(): void;
 }
 
-export class SnackbarConfig<D = any> {
+export class ServicioConfiguracionSnackbar<D = IPropiedadesConfiguracionSnackbar> {
     data?: D;
+}
+
+interface IPropiedadesConfiguracionSnackbar{
+    [key:string]: any;
+    duracionMuestraMensaje: number;
 }
 
 export const SUCCESS = 'success';
@@ -19,18 +24,4 @@ type SUCCESS = typeof SUCCESS;
 type WARNING = typeof WARNING;
 type ERROR = typeof ERROR;
 
-export type TYPE_SNACKBAR = SUCCESS | WARNING | ERROR;
-
-export const TOP = 'top';
-export const LEFT = 'left';
-export const RIGHT = 'right';
-export const BOTTOM = 'bottom';
-export const CENTER = 'center';
-
-type TOP = typeof TOP;
-type LEFT = typeof LEFT;
-type RIGHT = typeof RIGHT;
-type BOTTOM = typeof BOTTOM;
-type CENTER = typeof CENTER;
-
-export type TYPE_POSITION = TOP | LEFT | RIGHT | BOTTOM | CENTER;
+export type TIPO_SNACKBAR = SUCCESS | WARNING | ERROR;

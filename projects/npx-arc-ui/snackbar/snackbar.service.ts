@@ -9,19 +9,18 @@ import {
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { SnackbarInjector } from './snackbar.injector';
-import ISnackbarService, {
-  SnackbarConfig,
+import IServicioSnackbar, {
+  ServicioConfiguracionSnackbar,
   ERROR,
   SUCCESS,
-  TYPE_POSITION,
   WARNING,
-  TYPE_SNACKBAR,
+  TIPO_SNACKBAR,
 } from './snackbar.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SnackbarService implements ISnackbarService {
+export class ServicioSnackbar implements IServicioSnackbar {
   private snackbarComponentRef?: ComponentRef<SnackbarComponent>;
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -29,76 +28,78 @@ export class SnackbarService implements ISnackbarService {
     private injector: Injector
   ) {}
 
-  private open(message: string, type: TYPE_SNACKBAR, position?: TYPE_POSITION[], config?: SnackbarConfig) {
-    this.snackbarComponentRef && this.close();
+  private muestraMensaje(mensaje: string, tipo: TIPO_SNACKBAR, config?: ServicioConfiguracionSnackbar) {
+    this.snackbarComponentRef && this.eliminaMensaje();
     const snackbarRef = this.appendDialogComponentToBody(config);
     if (this.snackbarComponentRef) {
-      this.snackbarComponentRef.instance.message = message;
-      this.snackbarComponentRef.instance.type = type;
-      this.snackbarComponentRef.instance.position = position;
+      this.snackbarComponentRef.instance.mensaje = mensaje;
+      this.snackbarComponentRef.instance.tipoAlerta = tipo;
     }
     return snackbarRef;
   }
 
-  private appendDialogComponentToBody(config?: SnackbarConfig) {
+  private appendDialogComponentToBody(config?: ServicioConfiguracionSnackbar) {
+    const configuration = Object.assign({}, config);
+    if(!config){
+      if (configuration.data) {
+        configuration.data.duracionMuestraMensaje = 5;
+      }
+    }
     const map = new WeakMap();
-    map.set(SnackbarConfig, config);
+    map.set(ServicioConfiguracionSnackbar, configuration);
 
-    const snackbarRef = new SnackbarRef();
-    map.set(SnackbarRef, snackbarRef);
+    const snackbarRef = new ServicioHelperSnackbar();
+    map.set(ServicioHelperSnackbar, snackbarRef);
 
-    const sub = snackbarRef.afterClosed.subscribe(() => {
+    const sub = snackbarRef.mensajeEliminado.subscribe(() => {
       // close the dialog
-      this.close();
+      this.eliminaMensaje();
       sub.unsubscribe();
     });
 
-    const componentFactory =
-        this.componentFactoryResolver.resolveComponentFactory(SnackbarComponent),
-      componentRef = componentFactory.create(
-        new SnackbarInjector(this.injector, map)
-      );
+    const componentFactory =this.componentFactoryResolver.resolveComponentFactory(SnackbarComponent), 
+    componentRef = componentFactory.create(new SnackbarInjector(this.injector, map));
 
     this.appRef.attachView(componentRef.hostView);
 
-    const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
-      .rootNodes[0] as HTMLElement;
+    const domElem = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
     document.body.appendChild(domElem);
 
     this.snackbarComponentRef = componentRef;
 
-    this.snackbarComponentRef.instance.onClose.subscribe(() => {
-      this.close();
+    this.snackbarComponentRef.instance.eliminarMensaje
+    .subscribe(() => {
+      this.eliminaMensaje();
     });
 
     return snackbarRef;
   }
 
-  close(): void {
+  eliminaMensaje(): void {
     if (this.snackbarComponentRef) {
       this.appRef.detachView(this.snackbarComponentRef.hostView);
       this.snackbarComponentRef.destroy();
     }
   }
 
-  onSuccessMessage(message: string, position?: TYPE_POSITION[], extra?: SnackbarConfig) {
-    return this.open(message, SUCCESS, position, extra);
+  muestraMensajeExito(mensaje: string, extra?: ServicioConfiguracionSnackbar) {
+    return this.muestraMensaje(mensaje, SUCCESS, extra);
   }
-  onWarningMessage(message: string, position?: TYPE_POSITION[], extra?: SnackbarConfig) {
-    return this.open(message, WARNING, position, extra);
+  muestraMensajeWarning(mensaje: string, extra?: ServicioConfiguracionSnackbar) {
+    return this.muestraMensaje(mensaje, WARNING, extra);
   }
-  onErrorMessage(message: string, position?: TYPE_POSITION[], extra?: SnackbarConfig) {
-    return this.open(message, ERROR, position, extra);
+  muestraMensajeError(mensaje: string, extra?: ServicioConfiguracionSnackbar) {
+    return this.muestraMensaje(mensaje, ERROR, extra);
   }
 }
 
-export class SnackbarRef {
+export class ServicioHelperSnackbar {
   constructor() {}
 
-  close(result?: any) {
-    this._afterClosed.next(result);
+  eliminaMensaje(result?: any) {
+    this._mensajeEliminado.next(result);
   }
 
-  private readonly _afterClosed = new Subject<any>();
-  afterClosed: Observable<any> = this._afterClosed.asObservable();
+  private readonly _mensajeEliminado = new Subject<any>();
+  mensajeEliminado: Observable<any> = this._mensajeEliminado.asObservable();
 }

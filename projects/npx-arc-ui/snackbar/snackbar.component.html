@@ -1,14 +1,14 @@
-<div class="overlay" (click)="onOverlayClicked($event)">
+<div class="overlay" id="overlay" (click)="onOverlayClicked($event)">
     <div class="container__snackbar">
-        <div class="snackbar" [ngClass]="active ? 'active' : ''" [class]="type || ''" (click)="onAlertClicked($event)">
+        <div class="snackbar" [ngClass]="muestraMensaje ? 'active' : ''" [class]="tipoAlerta || ''" (click)="copiaMensaje($event)">
             <figure>
-                <img [src]="'data:image/svg+xml;base64,'+getImageIcon()" alt="icon" loading="lazy">
+                <img [src]="'data:image/svg+xml;base64,'+muestraIcono()" alt="icon" loading="lazy">
             </figure>
-            <strong>{{title}}</strong>
+            <strong>{{muestraTitulo()}}</strong>
             <div class="content__message">
-                <span>{{message}}</span>
+                <span>{{mensaje}}</span>
             </div>
-            <button type="button" (click)="close()">
+            <button type="button" (click)="eliminaMensaje()">
                 <svg class="close" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
             </button>
         </div>

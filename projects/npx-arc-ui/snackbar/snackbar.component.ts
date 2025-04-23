@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy } from '@angular/core';
-import { Subject, Subscription, of, tap } from 'rxjs';
-import { TYPE_POSITION, TYPE_SNACKBAR } from './snackbar.interface';
-import { SnackbarRef } from './snackbar.service';
-import { SNACKBAR_ERROR, SNACKBAR_SUCCESS, SNACKBAR_WARNING } from './snackbar.const';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { filter, fromEvent, interval, mapTo, merge, startWith, Subject, Subscription, switchMap, take } from 'rxjs';
+import { ERROR, ServicioConfiguracionSnackbar, SUCCESS, TIPO_SNACKBAR, WARNING } from './snackbar.interface';
+import { ServicioHelperSnackbar } from './snackbar.service';
+import { ICONO_SNACKBAR_ERROR, ICONO_SNACKBAR_SUCCESS, ICONO_SNACKBAR_WARNING, SELECTOR_CONTENEDOR_SNACKBAR } from './snackbar.const';
 
 @Component({
   selector: 'arc-snackbar',
@@ -12,81 +12,127 @@ import { SNACKBAR_ERROR, SNACKBAR_SUCCESS, SNACKBAR_WARNING } from './snackbar.c
   templateUrl: './snackbar.component.html',
   styleUrl: './snackbar.component.css'
 })
-export class SnackbarComponent  implements OnDestroy{
-  private readonly _onClose = new Subject<any>();
-  onClose = this._onClose.asObservable();
-  @Input() message: string = '';
-  @Input() type?: TYPE_SNACKBAR;
-  @Input() position?: TYPE_POSITION[] = ['top', 'center'];
-  title: string = '';
-  active: boolean = true;
-  icon: string = `assets/${this.type}.svg`;
-  subscription?: Subscription
-  private sanckbarRef = new SnackbarRef();
-  constructor() {
-    setTimeout(() => this.onStartUp());
+export class SnackbarComponent implements OnInit, OnDestroy{
+  private readonly _eliminarMensaje = new Subject<any>();
+  eliminarMensaje = this._eliminarMensaje.asObservable();
+  @Input() mensaje: string = '';
+  @Input() tipoAlerta: TIPO_SNACKBAR = SUCCESS;
+  muestraMensaje: boolean = true;
+  subscription?: Subscription;
+  subscriptionContador?: Subscription;
+  private sanckbarRef = new ServicioHelperSnackbar();
+  pausado = false;
+  iniciar$ = new Subject<void>();
+  pausar$ = new Subject<void>();
+  duracion: number;
+
+  constructor(private config: ServicioConfiguracionSnackbar){
+    this.duracion = config.data?.duracionMuestraMensaje || 5;
   }
+
+  ngOnInit(): void {
+    const contador$ = this.iniciar$.pipe(
+      switchMap(() => interval(1000).pipe(
+        take(this.duracion)
+        , filter(() => !this.pausado)
+      ))
+    );
+
+    const alertaDOM = document.getElementById(SELECTOR_CONTENEDOR_SNACKBAR);
+    if(alertaDOM){
+      //Se mantiene escuchando ante cualquier evento del mouse sobre el mensaje
+      const mouseEnter$ = fromEvent(alertaDOM, 'mouseenter').pipe(mapTo(true)); 
+      const mouseLeave$ = fromEvent(alertaDOM, 'mouseleave').pipe(mapTo(false));
+      merge(mouseEnter$, mouseLeave$)
+      .pipe(
+        startWith(false)
+      )
+      .subscribe(pausado =>{
+        this.pausado = pausado;
+        if(pausado){
+          this.pausarContador();
+        }
+        else{
+          this.iniciarContador();
+        }
+      })
+      
+      this.subscriptionContador = contador$
+      .subscribe({
+        next: (value: number) => {
+          const ocultaMensaje = value === (this.duracion - 1);
+          if(ocultaMensaje){
+            this.eliminaMensaje();
+          }
+        }
+      });
+      this.iniciarContador();
+    } 
+    else{
+      console.log('No se ha encontrado elementos en el DOM');
+    }
+
+  }
+
+  iniciarContador():void{
+    this.pausado = false;
+    this.iniciar$.next();
+  }
+
+  pausarContador(): void{
+    this.pausado = true;
+    this.pausar$.next();
+  }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.subscriptionContador?.unsubscribe();
   }
 
   onOverlayClicked(evt: MouseEvent) {
     if(!this.subscription){
-      this.close();
+      this.eliminaMensaje();
     }
   }
 
-  getImageIcon(){
-    switch (this.type) {
+  muestraTitulo() {
+    switch (this.tipoAlerta) {
+      case WARNING:
+        return '¡Advertencia!';
+      case SUCCESS:
+        return '¡Éxito!';
+      case ERROR:
+        return '¡Error!';
+    }
+  }
+
+  muestraIcono(){
+    switch (this.tipoAlerta) {
       case 'error':
-        return SNACKBAR_ERROR;
+        return ICONO_SNACKBAR_ERROR;
       case 'warning':
-        return SNACKBAR_WARNING;
+        return ICONO_SNACKBAR_WARNING;
       default:
-        return SNACKBAR_SUCCESS;
+        return ICONO_SNACKBAR_SUCCESS;
     }
   }
 
-  onAlertClicked(evt: MouseEvent) {
+  copiaMensaje(evt: MouseEvent) {
     evt.stopPropagation();
     var input;
     input = document.createElement('input');
     input.setAttribute('type', 'text');
-    input.value = this.message;
+    input.value = this.mensaje;
     document.body.appendChild(input);
     input.select();
     document.execCommand('copy');
     document.body.removeChild(input);
   }
 
-  close() {
+  eliminaMensaje() {
     if(!this.subscription){
-      this.active = !this.active;
-      this.subscription = of(0)
-        .pipe(
-          tap({
-            next: () => {
-              this.sanckbarRef.close();
-            },
-          })
-        )
-        .subscribe();
-    }
-  }
-
-  private onStartUp() {
-    switch (this.type) {
-      case 'warning':
-        this.title = '¡Advertencia!';
-        break;
-
-      case 'success':
-        this.title = '¡Éxito!';
-        break;
-
-      case 'error':
-        this.title = '¡Error!';
-        break;
+      this.muestraMensaje = !this.muestraMensaje;
+      this.sanckbarRef.eliminaMensaje();
     }
   }
 }
