@@ -15,7 +15,7 @@ import { ICONO_SNACKBAR_ERROR, ICONO_SNACKBAR_SUCCESS, ICONO_SNACKBAR_WARNING, S
   styleUrl: './snackbar.component.css'
 })
 export class SnackbarComponent implements OnInit, OnDestroy{
-  private readonly _eliminarMensaje = new Subject<any>();
+  private readonly _eliminarMensaje = new Subject<void>();
   eliminarMensaje = this._eliminarMensaje.asObservable();
   @Input() mensaje: string = '';
   @Input() tipoAlerta: TIPO_SNACKBAR = SUCCESS;
@@ -132,9 +132,8 @@ export class SnackbarComponent implements OnInit, OnDestroy{
   }
 
   eliminaMensaje() {
-    if(!this.subscription){
-      this.muestraMensaje = !this.muestraMensaje;
-      this.sanckbarRef.eliminaMensaje();
-    }
+    this.muestraMensaje = !this.muestraMensaje;
+    this.sanckbarRef.eliminarMensaje();
+    this._eliminarMensaje.next();
   }
 }

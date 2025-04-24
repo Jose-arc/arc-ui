@@ -71,10 +71,10 @@ export class ServicioSnackbar implements IServicioSnackbar {
     .subscribe(() => {
       this.eliminaMensaje();
     });
-
+    
     return snackbarRef;
   }
-
+  
   eliminaMensaje(): void {
     if (this.snackbarComponentRef) {
       this.appRef.detachView(this.snackbarComponentRef.hostView);
@@ -96,10 +96,10 @@ export class ServicioSnackbar implements IServicioSnackbar {
 export class ServicioHelperSnackbar {
   constructor() {}
 
-  eliminaMensaje(result?: any) {
-    this._mensajeEliminado.next(result);
+  eliminarMensaje() {
+    this._mensajeEliminado.next();
   }
 
-  private readonly _mensajeEliminado = new Subject<any>();
-  mensajeEliminado: Observable<any> = this._mensajeEliminado.asObservable();
+  private readonly _mensajeEliminado = new Subject<void>();
+  mensajeEliminado: Observable<void> = this._mensajeEliminado.asObservable();
 }
