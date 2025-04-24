@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { filter, fromEvent, interval, mapTo, merge, startWith, Subject, Subscription, switchMap, take } from 'rxjs';
+import { Subject, interval, fromEvent, merge, Subscription } from 'rxjs';
+import { switchMap, take, filter, mapTo, startWith } from 'rxjs/operators';
+
 import { ERROR, ServicioConfiguracionSnackbar, SUCCESS, TIPO_SNACKBAR, WARNING } from './snackbar.interface';
 import { ServicioHelperSnackbar } from './snackbar.service';
 import { ICONO_SNACKBAR_ERROR, ICONO_SNACKBAR_SUCCESS, ICONO_SNACKBAR_WARNING, SELECTOR_CONTENEDOR_SNACKBAR } from './snackbar.const';
